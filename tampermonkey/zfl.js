@@ -1,20 +1,20 @@
 // ==UserScript==
-// @name         96xxzfl.com宅福利自动加载下一页,放大,左右键快速滚动
-// @description  96xxzfl.com宅福利自动加载下一页,放大,左右键快速滚动.更多功能欢迎提交issues
+// @name         宅福利自动加载下一页,放大,左右键快速滚动
+// @description  宅福利自动加载下一页,放大,左右键快速滚动.更多功能欢迎提交issues
 // @namespace    https://github.com/LiHang941/srcript/
-// @version      0.60
+// @version      0.59
 // @description  try to take over the world!
-// @author       lihang1329@gmail.com
-// @include      *https://96aa.net*
-// @supportURL https://github.com/LiHang941/srcript
-// @require https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js
+// @author       etim@foxmail.com
+// @include      *http*://*96**.net*
+// @supportURL   https://github.com/xyetim/srcript
+// @require      https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js
 // @grant        none
 // ==/UserScript==
 
 (function() {
-    if(!/https:\/\/96aa.net\/.+\/\d+\.html(.*?)/.test(window.location.href)){
+    /*if(!/https:\/\/96**.net\/.+\/\d+\.html(.*?)/.test(window.location.href)){
         return;
-    }
+    }*/
     $(function(){
 
         var ddpowerzoomer={
@@ -113,18 +113,18 @@
             })
         };
 
-        ddpowerzoomer.init($);
+        //ddpowerzoomer.init($);
         $(".pagination-multi li a").each(function(){
             if($(this).html()=="下一页"){
                 next($(this).attr('href'));
             }
         });
-        $(".article-content").find('img').addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
+        //$(".article-content").find('img').addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
         $(window).keydown(function(event){
             var y = window.screen.availHeight;
-            if(event.keyCode === 37 ){
+            if(event.keyCode === 37 ){           //keyCode37=Left Arrow
                 y = $(window).scrollTop() - y;
-            }else if(event.keyCode === 39){
+            }else if(event.keyCode === 39){      //keyCode=39=Right Arrow 
                 y = $(window).scrollTop() + y;
             } else {return;}
             $("html,body").scrollTop(y);
@@ -149,14 +149,16 @@
     });
 
     function next(url){
-        //console.log(url);
+        console.log("下一页网址:",url);
         $.get(url,function(res){
             var nextReg = /<li class='next-page'><a href='(.+)'>(.+)<\/a><\/li>/g;
-            var reg =/<img.+src="(.+)"\s+\/>\s*<\/p>/g;
+            //var reg =/<img.+src="(.+)"\s+\/>\s*<\/p>/g;
+            var reg =/<img.+src="(.+)".+<\/p>/g;
             var match = reg.exec(res);
+          console.log("图片资源:",match);
             while (match != null) {
                 $(".article-content p").last().after('<p><img src="'+match[1]+'"></p>');
-                $(".article-content").find('img').last().addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
+                //$(".article-content").find('img').last().addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
                 //console.log(match[2]);
                 match =  reg.exec(res);
             }
