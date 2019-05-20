@@ -33,45 +33,50 @@
 
             movemagnifier: function(e, moveBol, zoomdir) {
                 console.log("movemagnifier");
-                var activeimage = ddpowerzoomer.activeimage //get image mouse is currently over
-                var activeimginfo = activeimage.info
-                var coords = activeimginfo.coords //get offset coordinates of image relative to upper left corner of page
-                var $magnifier = ddpowerzoomer.$magnifier
-                var magdimensions = activeimginfo.magdimensions //get dimensions of magnifier
-                var power = activeimginfo.power.current
-                var powerrange = activeimginfo.power.range
-                var x = e.pageX - coords.left //get x coords of mouse within image (where top corner of image is 0)
-                var y = e.pageY - coords.top
+                var activeimage = ddpowerzoomer.activeimage; //get image mouse is currently over
+                var activeimginfo = activeimage.info;
+                var coords = activeimginfo.coords; //get offset coordinates of image relative to upper left corner of page
+                var $magnifier = ddpowerzoomer.$magnifier;
+                var magdimensions = activeimginfo.magdimensions; //get dimensions of magnifier
+                var power = activeimginfo.power.current;
+                var powerrange = activeimginfo.power.range;
+                var x = e.pageX - coords.left; //get x coords of mouse within image (where top corner of image is 0)
+                var y = e.pageY - coords.top;
                 if (moveBol == true) {
                     if (e.pageX >= coords.left && e.pageX <= coords.right && e.pageY >= coords.top && e.pageY <= coords.bottom) //if mouse is within currently within boundaries of active base image
                     $magnifier.outer.css({
                         left: e.pageX - magdimensions[0] / 2,
                         top: e.pageY - magdimensions[1] / 2
-                    }) //move magnifier so it follows the cursor
+                    }); //move magnifier so it follows the cursor
                     else { //if mouse is outside base image
-                        ddpowerzoomer.activeimage = null $magnifier.outer.hide() //hide magnifier
+                        ddpowerzoomer.activeimage = null,
+                        $magnifier.outer.hide() //hide magnifier
                     }
                 } else if (zoomdir) { //if zoom in
-                    var od = activeimginfo.dimensions //get dimensions of image
+                    var od = activeimginfo.dimensions; //get dimensions of image
                     var newpower = (zoomdir == "in") ? Math.min(power + 1, powerrange[1]) : Math.max(power - 1, powerrange[0]) //get new power from zooming in or out
                     var nd = [od[0] * newpower, od[1] * newpower] //calculate dimensions of new enlarged image within magnifier
                     $magnifier.image.css({
                         width: nd[0],
                         height: nd[1]
-                    }) activeimginfo.power.current = newpower //set current power to new power after magnification
+                    });
+                    activeimginfo.power.current = newpower; //set current power to new power after magnification
                 }
-                power = activeimginfo.power.current //get current power
-                var newx = -x * power + magdimensions[0] / 2 //calculate x coord to move enlarged image
-                var newy = -y * power + magdimensions[1] / 2 $magnifier.inner.css({
+                power = activeimginfo.power.current; //get current power
+                var newx = -x * power + magdimensions[0] / 2; //calculate x coord to move enlarged image
+                var newy = -y * power + magdimensions[1] / 2;
+                $magnifier.inner.css({
                     left: newx,
                     top: newy
-                }) //move image wrapper within magnifier so the correct image area is shown
+                }); //move image wrapper within magnifier so the correct image area is shown
             },
 
             setupimage: function($, imgref, options) {
                 console.log("setupimage");
                 var s = jQuery.extend({},
-                ddpowerzoomer.dsetting, options) var $imgref = $(imgref) imgref.info = { //create object to remember various info regarding image
+                ddpowerzoomer.dsetting, options);
+                var $imgref = $(imgref);
+                imgref.info = { //create object to remember various info regarding image
                     power: {
                         current: s.defaultpower,
                         range: s.powerrange
@@ -81,24 +86,27 @@
                     coords: null
                 }
                 $imgref.unbind('mouseenter').mouseenter(function(e) { //mouseenter event over base image
-                    var $magnifier = ddpowerzoomer.$magnifier $magnifier.outer.css({
+                    var $magnifier = ddpowerzoomer.$magnifier;
+                    $magnifier.outer.css({
                         width: s.magnifiersize[0],
                         height: s.magnifiersize[1]
-                    }) //set magnifier's size
-                    var offset = $imgref.offset() //get image offset from document
-                    var power = imgref.info.power.current $magnifier.inner.html('<img src="' + $imgref.attr('src') + '"/>') //get base image's src and create new image inside magnifier based on it
+                    }); //set magnifier's size
+                    var offset = $imgref.offset(); //get image offset from document
+                    var power = imgref.info.power.current;
+                    $magnifier.inner.html('<img src="' + $imgref.attr('src') + '"/>') //get base image's src and create new image inside magnifier based on it
                     $magnifier.image = $magnifier.outer.find('img:first').css({
                         width: imgref.info.dimensions[0] * power,
                         height: imgref.info.dimensions[1] * power
-                    }) //set size of enlarged image
+                    }); //set size of enlarged image
                     var coords = {
                         left: offset.left,
                         top: offset.top,
                         right: offset.left + imgref.info.dimensions[0],
                         bottom: offset.top + imgref.info.dimensions[1]
                     }
-                    imgref.info.coords = coords //remember left, right, and bottom right coordinates of image relative to doc
-                    $magnifier.outer.show() ddpowerzoomer.activeimage = imgref
+                    imgref.info.coords = coords; //remember left, right, and bottom right coordinates of image relative to doc
+                    $magnifier.outer.show();
+                    ddpowerzoomer.activeimage = imgref;
                 })
             },
 
@@ -109,8 +117,9 @@
                     outer: $magnifier,
                     inner: $magnifier.find('div:eq(0)'),
                     image: null
-                } //reference and remember various parts of magnifier
-                $magnifier = ddpowerzoomer.$magnifier $(document).unbind('mousemove.trackmagnifier').bind('mousemove.trackmagnifier',
+                }; //reference and remember various parts of magnifier
+                $magnifier = ddpowerzoomer.$magnifier;
+                $(document).unbind('mousemove.trackmagnifier').bind('mousemove.trackmagnifier',
                 function(e) { //bind mousemove event to doc
                     if (ddpowerzoomer.activeimage) { //if mouse is currently over a magnifying image
                         ddpowerzoomer.movemagnifier(e, true) //move magnifier
@@ -120,10 +129,11 @@
             }
         }; //ddpowerzoomer
         jQuery.fn.addpowerzoom = function(options) {
-            var $ = jQuery
+            var $ = jQuery;
             return this.each(function() { //return jQuery obj
                 if (this.tagName != "IMG") return true //skip to next matched element
-                var $imgref = $(this) if (this.offsetWidth > 0 && this.offsetHeight > 0) //if image has explicit CSS width/height defined
+                var $imgref = $(this);
+                if (this.offsetWidth > 0 && this.offsetHeight > 0) //if image has explicit CSS width/height defined
                 ddpowerzoomer.setupimage($, this, options)
                 else if (this.complete) { //account for IE not firing image.onload
                     ddpowerzoomer.setupimage($, this, options)
@@ -176,22 +186,31 @@
         var clearAd = {
             clear: function() {
                 //此处添加广告框ID名,id|"#"
-                var ad_id_name = ["ads.ads-content.ads-post"];
+                var ad_id_name = ["AD_L1EVER", "commentyxpjw", "CommentText"];
 
                 //此处添加广告框CLASS名,class|"."
-                var ad_class_name = ["ads.ads-content.ads-post", "article-tags"];
+                var ad_class_name = ["ads.ads-content.ads-post", "article-tags", "article-nav", "footer", "postsubmit", "pagination.pagination-multi", "title"];
+
+                //此处添加广告框TAG名,tag|"<>"
+                var ad_tag_name = ["blockquote"];
 
                 for (var i = 0; i < ad_id_name.length; i++) {
-                    //$('#' + ad_id_name[i]).hide();
-                    $('#' + ad_id_name[i]).remove();
+                    $('#' + ad_id_name[i]).hide();
+                    //$('#' + ad_id_name[i]).remove();
                 }
 
                 for (var i = 0; i < ad_class_name.length; i++) {
-                    //$('.' + ad_class_name[i]).hide();
-                    $('.' + ad_class_name[i]).remove();
+                    $('.' + ad_class_name[i]).hide();
+                    //$('.' + ad_class_name[i]).remove();
                 }
+
+                for (var i = 0; i < ad_tag_name.length; i++) {
+                    $(ad_tag_name[i]).hide();
+                    //$(ad_tag_name[i]).remove();
+                }
+
             },
-            //简单的智能算法
+            //简单的智能算法，屏蔽关联元素
             findSomeAdPossible: function() {
                 var sap = $('div iframe'),
                 ad_img = $('div script').parent().find('img,embed'),
@@ -208,15 +227,16 @@
                     var self = arr.eq(i);
 
                     if (self.width() <= conWidth || self.height() <= conHeight) {
-                        //self.hide();
-                        self.remove();
+                        self.hide();
+                        //self.remove();
                     }
 
                 }
             },
             initad: function() {
                 this.clear();
-                this.findSomeAdPossible();
+                //简单的智能算法，关联元素是否屏蔽
+                //this.findSomeAdPossible();
             }
         };
 
