@@ -167,49 +167,55 @@
         });
         $(document).scroll(function() {
             var top = $(document).scrollTop();
-            if (top > 100) {
-                $('.header').fadeOut(100);
+            if (top > 10) {
+                //$('.header').fadeOut(100);
+                $('.header').fadeOut(10);
             } else {
-                $('.header').fadeIn(100);
+                //$('.header').fadeIn(100);
+                $('.header').fadeIn(10);
             }
         });
         $(document).mousemove(function(e) {
             var top = e.originalEvent.y || e.originalEvent.layerY || 0;
-            if (top > 100) {
-                $('.header').fadeOut(100);
+            if (top > 10) {
+                //$('.header').fadeOut(100);
+                $('.header').fadeOut(10);
             } else {
-                $('.header').fadeIn(100);
+                //$('.header').fadeIn(100);
+                $('.header').fadeIn(10);
             }
         });
 
         //移除广告块
         var clearAd = {
             clear: function() {
+
                 //此处添加广告框ID名,id|"#"
                 var ad_id_name = ["AD_L1EVER", "commentyxpjw", "CommentText"];
 
                 //此处添加广告框CLASS名,class|"."
-                var ad_class_name = ["ads.ads-content.ads-post", "article-tags", "article-nav", "footer", "postsubmit", "pagination.pagination-multi", "title"];
+                var ad_class_name = ["ads.ads-content.ads-post", "article-tags", "article-nav", "footer", "postsubmit", "pagination.pagination-multi", "title", "sidebar"];
 
                 //此处添加广告框TAG名,tag|"<>"
                 var ad_tag_name = ["blockquote"];
 
                 for (var i = 0; i < ad_id_name.length; i++) {
-                    $('#' + ad_id_name[i]).hide();
-                    //$('#' + ad_id_name[i]).remove();
-                }
+                    //$('#' + ad_id_name[i]).hide();
+                    $('#' + ad_id_name[i]).remove();
+                };
 
                 for (var i = 0; i < ad_class_name.length; i++) {
-                    $('.' + ad_class_name[i]).hide();
-                    //$('.' + ad_class_name[i]).remove();
-                }
+                    //$('.' + ad_class_name[i]).hide();
+                    $('.' + ad_class_name[i]).remove();
+                };
 
                 for (var i = 0; i < ad_tag_name.length; i++) {
-                    $(ad_tag_name[i]).hide();
-                    //$(ad_tag_name[i]).remove();
+                    //$(ad_tag_name[i]).hide();
+                    $(ad_tag_name[i]).remove();
                 }
 
             },
+
             //简单的智能算法，屏蔽关联元素
             findSomeAdPossible: function() {
                 var sap = $('div iframe'),
@@ -233,8 +239,39 @@
 
                 }
             },
+            fixcss: function() {
+
+                //此处添加内容框ID名,id|"#"
+                var con_id_name = [];
+
+                //此处添加内容框CLASS名,class|"."
+                var con_class_name = ["content"];
+
+                //此处添加内容框TAG名,tag|"<>"
+                var con_tag_name = ["img"];
+
+                for (var i = 0; i < con_id_name.length; i++) {
+                    $('#' + con_id_name[i]).css({
+
+});
+                };
+
+                for (var i = 0; i < con_class_name.length; i++) {
+                    $('.' + con_class_name[i]).css({
+                        margin: '0 auto',
+                    });
+                };
+
+                for (var i = 0; i < con_tag_name.length; i++) {
+                    $(con_tag_name[i]).css({
+                        height: 'auto',
+                    });
+                }
+            },
             initad: function() {
                 this.clear();
+                this.fixcss();
+
                 //简单的智能算法，关联元素是否屏蔽
                 //this.findSomeAdPossible();
             }
@@ -255,7 +292,7 @@
             var match = reg.exec(res);
             while (match != null) {
                 console.log("图片地址:", match[1]);
-                $(".article-content p").last().after('<p><img src="' + match[1] + '"></p>');
+                $(".article-content p").last().after('<p><img style="width:100%,height:auto;margin:0px auto;" src="' + match[1] + '"></p>');
                 //$(".article-content").find('img').last().addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
                 //console.log(match[2]);
                 match = reg.exec(res);
