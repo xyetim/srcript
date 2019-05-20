@@ -2,7 +2,7 @@
 // @name         宅福利自动加载下一页,放大,左右键快速滚动
 // @description  宅福利自动加载下一页,放大,左右键快速滚动.更多功能欢迎提交issues
 // @namespace    https://github.com/LiHang941/srcript/
-// @version      0.59
+// @version      0.60
 // @description  try to take over the world!
 // @author       etim@foxmail.com
 // @include      *http*://*96**.net*
@@ -264,6 +264,7 @@
 
                 for (var i = 0; i < con_tag_name.length; i++) {
                     $(con_tag_name[i]).css({
+                        width:'100%',
                         height: 'auto',
                     });
                 }
