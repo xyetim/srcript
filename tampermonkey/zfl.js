@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         宅福利自动加载下一页,放大,左右键快速滚动
 // @description  宅福利自动加载下一页,放大,左右键快速滚动.更多功能欢迎提交issues
-// @namespace    https://github.com/LiHang941/srcript/
+// @namespace    https://github.com/xyetim/srcript/
 // @version      0.59
 // @description  try to take over the world!
 // @author       etim@foxmail.com
