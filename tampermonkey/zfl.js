@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         宅福利自动加载下一页,放大,左右键快速滚动
 // @description  宅福利自动加载下一页,放大,左右键快速滚动.更多功能欢迎提交issues
-// @namespace    https://github.com/xyetim/srcript/
+// @namespace    https://github.com/LiHang941/srcript/
 // @version      0.59
 // @description  try to take over the world!
 // @author       etim@foxmail.com
@@ -155,9 +155,9 @@
             //var reg =/<img.+src="(.+)"\s+\/>\s*<\/p>/g;
             var reg =/<img.+src="(.+)".+<\/p>/g;
             var match = reg.exec(res);
-          console.log("图片资源:",match);
             while (match != null) {
                 $(".article-content p").last().after('<p><img src="'+match[1]+'"></p>');
+                console.log("图片地址:",match[1]);
                 //$(".article-content").find('img').last().addpowerzoom({magnifiersize:[500,500],powerrange:[3,3]});
                 //console.log(match[2]);
                 match =  reg.exec(res);
