@@ -248,7 +248,7 @@
                 var con_class_name = ["content"];
 
                 //此处添加内容框TAG名,tag|"<>"
-                var con_tag_name = ["img"];
+                var con_tag_name = ["img","article-content.img"];
 
                 for (var i = 0; i < con_id_name.length; i++) {
                     $('#' + con_id_name[i]).css({
@@ -258,6 +258,7 @@
 
                 for (var i = 0; i < con_class_name.length; i++) {
                     $('.' + con_class_name[i]).css({
+                        width:'100%',
                         margin: '0 auto',
                     });
                 };
